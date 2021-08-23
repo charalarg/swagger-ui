@@ -10,6 +10,17 @@
 ![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg?label=packagist%20installs)
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
+## Charalarg fork
+A quick fix for https://github.com/swagger-api/swagger-ui/issues/5169 issue documenting multipart/form properties.
+
+The documentation is displayed as an application/json body with the example value and schema defined in the .yaml file.
+
+![Properties Documentation](properties_documentation.png?raw=true "Documentation")
+
+The "Try it out" section is the same.
+
+![Try it out](try_it_out.png?raw=true "Try it out")
+
 ## Introduction
 [Swagger UI](https://swagger.io/tools/swagger-ui/) allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption.
 

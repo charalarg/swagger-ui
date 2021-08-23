@@ -68,6 +68,7 @@ const RequestBody = ({
     return options
   }
 
+
   const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
@@ -79,8 +80,16 @@ const RequestBody = ({
   const { showCommonExtensions } = getConfigs()
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
-  const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
+  let requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first() || ""
+
+  let MultiPartEnabled = false
+  if (contentType.indexOf("multipart/") === 0){
+    MultiPartEnabled = true
+  }
+  if(!isExecute) {
+    MultiPartEnabled = false
+  }
 
   const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
@@ -129,11 +138,13 @@ const RequestBody = ({
     return <Input type={"file"} onChange={handleFile} />
   }
 
+
+
   if (
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
-      contentType.indexOf("multipart/") === 0
+      MultiPartEnabled
     ) &&
     schemaForMediaType.get("properties", OrderedMap()).size > 0
   ) {
@@ -189,6 +200,7 @@ const RequestBody = ({
               const isFile = type === "string" && (format === "binary" || format === "base64")
 
               return <tr key={key} className="parameters" data-property-name={key}>
+
               <td className="parameters-col_name">
                 <div className={required ? "parameter__name required" : "parameter__name"}>
                   { key }
@@ -236,6 +248,17 @@ const RequestBody = ({
       </table>
     </div>
   }
+
+
+
+
+
+
+
+
+
+
+
 
   const sampleRequestBody = getDefaultRequestBodyValue(
     requestBody,
@@ -292,7 +315,7 @@ const RequestBody = ({
               className="body-param__example"
               getConfigs={getConfigs}
               language={language}
-              value={stringify(requestBodyValue) || sampleRequestBody}
+              value={stringify(sampleRequestBody)}
             />
           }
           includeWriteOnly={true}
